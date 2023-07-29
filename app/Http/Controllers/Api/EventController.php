@@ -16,7 +16,8 @@ class EventController extends Controller
      */
     public function index()
     {
-        return  EventResource::collection(Event::all());
+        // i want to paginate event
+        return EventResource::collection(Event::paginate(10));
     }
 
     /**
@@ -26,7 +27,7 @@ class EventController extends Controller
     {
         $event = Event::create($request->validated());
 
-        return response()->json($event, 201);
+        return response()->json(new EventResource($event), 201);
     }
 
     /**
@@ -34,7 +35,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        return $event;
+        return new EventResource($event);
     }
 
     /**
