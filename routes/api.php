@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AttendeeController;
 use App\Http\Controllers\Api\EventController;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return Event::where('user_id', $request->user()->id)->get();
 });
-
+Route::post('/login', [AuthController::class, 'login']);
 Route::apiResource('events', EventController::class);
 // Scoped => Attendee Is Only Exists If There's An Parent (Event)
 Route::apiResource('events.attendees', AttendeeController::class)->scoped()->except('update');
