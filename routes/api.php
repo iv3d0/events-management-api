@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return Event::where('user_id', $request->user()->id)->get();
 });
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::apiResource('events', EventController::class);
 // Scoped => Attendee Is Only Exists If There's An Parent (Event)
 Route::apiResource('events.attendees', AttendeeController::class)->scoped()->except('update');
