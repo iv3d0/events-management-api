@@ -8,6 +8,7 @@ use App\Http\Resources\EventResource;
 use App\Models\Event;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class EventController extends Controller
 {
@@ -21,7 +22,6 @@ class EventController extends Controller
      */
     public function index()
     {
-        // i want to paginate event
         return EventResource::collection(Event::paginate(10));
     }
 
@@ -48,7 +48,7 @@ class EventController extends Controller
      */
     public function update(EventRequest $request, Event $event)
     {
-        // i want to return the updated data
+        Gate::authorize('update-event', $event);
         $event =  $event->update($request->validated());
         return response()->json([
             'message' => 'Event Updated Successfully !'
@@ -60,6 +60,7 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
+        Gate::authorize('delete-event', $event);
         $event = $event->delete();
         return response()->json([
             'message' => 'Event Deleted Successfully !'
