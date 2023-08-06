@@ -1,4 +1,3 @@
-Here is a draft README.md file for a Laravel project with a simple REST API for event management:
 
 # Event Management API
 
